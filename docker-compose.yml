@@ -1,0 +1,19 @@
+services:
+  redis:
+    image: redis:7-alpine
+    # No host port published: the `app` container reaches this over the
+    # internal compose network as `redis:6379`. Avoids clashing with a
+    # locally-running Redis on the host's port 6379.
+
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      # Overrides the .env value so the app reaches the "redis" service on
+      # the compose network instead of localhost.
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - redis

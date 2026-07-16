@@ -64,6 +64,16 @@ npm run dev
 
 Expose `/api/webhook` with your repository webhook, sign payloads using `WEBHOOK_SECRET`, and the service will enqueue PR review jobs and post the results as inline comments on the pull request.
 
+## Run with Docker
+
+With a `.env` file in place (see above), run the app and Redis together:
+
+```bash
+docker compose up --build
+```
+
+This builds the app image (multi-stage: compiles TypeScript, then runs the compiled output on a slim Node 20 Alpine image) and starts a `redis` container alongside it — `REDIS_URL` is automatically pointed at the `redis` service, overriding whatever's in `.env`. The app is reachable at `http://localhost:3000` same as `npm run dev`. You'll still need a tunnel (smee/ngrok) to expose it to GitHub's webhook.
+
 ## Development
 
 **Validate the server starts up correctly:**

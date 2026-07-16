@@ -1,0 +1,10 @@
+node_modules
+dist
+.git
+.env
+*.md
+.eslintrc.json
+tsconfig.tsbuildinfo
+test
+.github
+docs
