@@ -1,2 +1,1 @@
-# AI-Code-Review-Bot
-AI Code Review Bot — automated GitHub PR reviewer built with TypeScript/Node.js, Express, and the Anthropic API, using async job processing (BullMQ) and webhook-driven architecture to surface code quality and security issues in real time.
+An AI-powered GitHub PR reviewer that uses Claude to post inline code review comments via a webhook-driven, queue-based Node.js/TypeScript service.
