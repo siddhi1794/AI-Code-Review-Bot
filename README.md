@@ -27,7 +27,11 @@ A few deliberate design choices:
 
 ## Quick start (MVP)
 
-Create a `.env` file with:
+Copy `.env.example` to `.env` and fill in real values:
+
+```bash
+cp .env.example .env
+```
 
 ```
 GITHUB_TOKEN=your_personal_access_token
