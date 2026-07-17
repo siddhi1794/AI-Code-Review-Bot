@@ -74,6 +74,24 @@ docker compose up --build
 
 This builds the app image (multi-stage: compiles TypeScript, then runs the compiled output on a slim Node 20 Alpine image) and starts a `redis` container alongside it — `REDIS_URL` is automatically pointed at the `redis` service, overriding whatever's in `.env`. The app is reachable at `http://localhost:3000` same as `npm run dev`. You'll still need a tunnel (smee/ngrok) to expose it to GitHub's webhook.
 
+### Run without cloning (pre-built image)
+
+Every push to `main` publishes an image to GitHub Container Registry, so you can run the app without cloning or building anything:
+
+```bash
+docker network create ai-review-net
+docker run -d --name redis --network ai-review-net redis:7-alpine
+docker run -p 3000:3000 --network ai-review-net \
+  -e REDIS_URL=redis://redis:6379 \
+  -e GITHUB_TOKEN=your_personal_access_token \
+  -e WEBHOOK_SECRET=your_webhook_secret \
+  -e ANTHROPIC_API_KEY=your_anthropic_api_key \
+  -e AI_PROVIDER=anthropic \
+  ghcr.io/siddhi1794/ai-code-review-bot:latest
+```
+
+You still need your own `GITHUB_TOKEN`, `WEBHOOK_SECRET`, and `ANTHROPIC_API_KEY` — the image has no secrets baked in.
+
 ## Development
 
 **Validate the server starts up correctly:**

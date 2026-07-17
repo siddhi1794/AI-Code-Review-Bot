@@ -19,3 +19,29 @@ jobs:
       - run: npm run typecheck
       - run: npm test -- --run
       - run: npm run build
+
+  # Publishes a pre-built image to GHCR after `build` passes, so the app can
+  # be pulled and run without cloning/building from source. Only runs on
+  # pushes to main (not PRs), since PRs from forks don't have package-write
+  # access to this repo's GITHUB_TOKEN.
+  publish:
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/ai-code-review-bot:latest
+            ghcr.io/${{ github.repository_owner }}/ai-code-review-bot:${{ github.sha }}
