@@ -1,0 +1,38 @@
+{
+  "name": "ai-code-review-bot",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI Code Review Bot for GitHub pull requests.",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "build": "tsc --build",
+    "start": "node dist/index.js",
+    "lint": "eslint . --ext .ts",
+    "test": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.111.0",
+    "@octokit/rest": "^19.0.13",
+    "bullmq": "^5.7.8",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.0",
+    "ioredis": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.0",
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "^2.0.0",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.5.0",
+    "vitest": "^4.1.10"
+  },
+  "overrides": {
+    "@octokit/types": "9.3.2"
+  }
+}
